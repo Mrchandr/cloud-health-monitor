@@ -1,0 +1,18 @@
+[Unit]
+Description=Cloud Infrastructure & Container Health Monitor
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/opt/cloud-health-monitor
+ExecStart=/usr/bin/python3 /opt/cloud-health-monitor/monitor/main.py
+Restart=always
+RestartSec=10
+Environment=AWS_REGION=ap-south-1
+Environment=CPU_THRESHOLD=80
+Environment=ENABLE_SELF_HEALING=true
+
+[Install]
+WantedBy=multi-user.target
